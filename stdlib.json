@@ -1,0 +1,28 @@
+{
+  "name": "JanethL/TaskManagerBot",
+  "version": "0.0.0",
+  "timeout": 10000,
+  "connector": false,
+  "events": {
+    "functions/events/slack/command/getmembers.js": {
+      "name": "slack.command",
+      "subtype": {
+        "command": "getmembers"
+      }
+    },
+    "functions/events/slack/command/record.js": {
+      "name": "slack.command",
+      "subtype": {
+        "command": "record"
+      }
+    },
+    "functions/events/scheduler/weekly.js": {
+      "name": "scheduler.weekly",
+      "subtype": {
+        "weekday": "Monday",
+        "time": "08:00 (8:00am)",
+        "timezone": "America — Los Angeles/San Francisco, US (-08:00, -07:00 DST)"
+      }
+    }
+  }
+}

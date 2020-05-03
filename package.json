@@ -1,0 +1,9 @@
+{
+  "name": "TaskManagerBot",
+  "author": "Janeth Ledezma <janeth@stdlib.com>",
+  "publish": false,
+  "dependencies": {
+    "lib": "^4.1.2",
+    "moment-timezone": "^0.5.28"
+  }
+}
