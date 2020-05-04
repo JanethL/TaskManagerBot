@@ -129,7 +129,7 @@ const lib = require('lib')({token: process.env.STDLIB_SECRET_TOKEN});
 module.exports = async (event) => {
 
   // Store API Responses
-const result = {slack: {}};
+  const result = {slack: {}};
 
   console.log(`Running [Slack → List all users]...`);
   result.slack.returnValue = await lib.slack.users['@0.3.32'].list({
@@ -137,22 +137,24 @@ const result = {slack: {}};
     limit: 100
   });
 
-const activeMembers = result.slack.returnValue.members.filter(members => members.is_bot == false);
+  const activeMembers = result.slack.returnValue.members.filter(members => members.is_bot == false);
 
-console.log(activeMembers);
+    console.log(`Running [Airtable → Insert Rows into a Base]...`);
+    for (var i = 0; i < activeMembers.length; i++) {
+    await lib.airtable.query['@0.4.5'].insert({
+      table: `Members`,
+      fieldsets: [
+        {
+          'real_name': `${activeMembers[i].profile.real_name}`,
+          'user_id': `${activeMembers[i].id}`
+        }
+      ]
+    });
+    }
+    
+  return result;
 
-  console.log(`Running [Airtable → Insert Rows into a Base]...`);
-  for (var i = 0; i < activeMembers.length; i++) {
-  await lib.airtable.query['@0.4.5'].insert({
-    table: `Members`,
-    fieldsets: [
-      {
-        'real_name': `${activeMembers[i].profile.real_name}`,
-        'user_id': `${activeMembers[i].id}`
-      }
-    ]
-  });
-  }
+};
   
 ```
 The first line of code imports an [NPM](https://www.npmjs.com/package/lib) package called “lib” to allow us to communicate with other APIs on top of Standard Library:
@@ -232,7 +234,7 @@ To open up the file running the weekly messages from your Slack app, navigate th
   
   console.log(`Running [Slack → retrieve channel by name ]}`);
   result.slack.channel = await lib.slack.channels['@0.6.6'].retrieve({
-    channel: `#general`
+    channel: `#random`
   });
   
   console.log(result.slack.channel);
