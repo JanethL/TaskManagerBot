@@ -21,6 +21,7 @@ focus on writing and modifying logic.
    1. [getmembers command](#getmembers-command)
    1. [scheduled messages](#scheduled-messages)
    1. [record command](#record-command) 
+1. [Changing the Time Interval](#changing-the-time-interval) 
 1. [Support](#support)
 1. [Acknowledgements](#acknowledgements)
 
