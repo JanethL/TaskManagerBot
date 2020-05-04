@@ -17,7 +17,7 @@ focus on writing and modifying logic.
 
 1. [How It Works](#how-it-works)
 1. [Installation](#installation)
-1. [Dive into the Code] (#dive-into-the-code) 
+1. [Dive into the Code](#dive-into-the-code) 
 1. [Making Changes](#making-changes)
    1. [via Web Browser](#via-web-browser)
    1. [via Command Line](#via-command-line)
