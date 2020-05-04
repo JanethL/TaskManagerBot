@@ -186,7 +186,7 @@ You can read more about API specifications and parameters here: https://docs.std
 To open up the file running the weekly messages from your Slack app, navigate through the `/functions/events/scheduler` folders and select `/weekly.js` file on your Autocode project.
 
 ``` Javascript
-  const lib = require('lib')({token: process.env.STDLIB_SECRET_TOKEN});
+    const lib = require('lib')({token: process.env.STDLIB_SECRET_TOKEN});
   
   /**
   * An HTTP endpoint that acts as a webhook for Scheduler daily event
@@ -266,7 +266,6 @@ To open up the file running the weekly messages from your Slack app, navigate th
   return result;
 
 };
-
 ```
 The `weekly.js` code will run once a week on Monday at 8 am PST.
 
