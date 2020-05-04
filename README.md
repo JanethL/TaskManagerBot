@@ -13,9 +13,6 @@ use this repository as its project structure. Standard Library will automaticall
 handle Slack API authentication/webhook signing and more for you, so you can
 focus on writing and modifying logic.
 
-# Use Case
-
-
 # Table of Contents
 
 1. [How It Works](#how-it-works)
@@ -114,7 +111,7 @@ You can then select the team members you'd like to have your app message.
 Your Slack app is ready! It'll query your Airtable for user_ids to send users a private message in the #general channel every Monday at 8:00 am PST.
 
 
-#Dive into the Code
+# Dive into the Code
 
 When a user type's \cmd getmembers a webhook on Standard Library is triggered. To open up the file for the command navigate through the `/functions/slack/command` folders and select `/getmembers.js` file: 
 
@@ -169,13 +166,13 @@ You can read more about API specifications and parameters here: https://docs.std
 
 **Lines 14–17** make a request to `lib.slack.users['@0.3.32']` to retrieve a list of users information and stores  the response data inside our `result` variable as `result.slack.returnValue.` You can view the `result` object by selecting `Run Code.` When you select Run Code Autocode will simulate a slash command event on Slack and the response will be visible in the logs right below the `Run Code` button. API Responses are highlighted in green.
 
-<img src= "./readme/.png" width="400">
+<img src= "./readme/24.png" width="400">
 
 **Line 19** we define the variable `activeMembers` and filter through the list to retrieve only active members from `result.slack.returnValue.members.` We will select users' `real_name,` and `user_id` from this response and pass this data into our subsequent Airtable API request.
 
 **Lines 24** uses a `for` loop to iterate through `activeMembers`. The `for` loop grabs all users'  `real_name`, and `user_id` and maps those to the Airtable fields: `real_name`, `user_id` via a request to `lib.airtable.query['@0.4.5'].`
 
-<img src= "./readme/1.png" width="400">
+<img src= "./readme/23.png" width="400">
 
 ---
 
@@ -268,23 +265,26 @@ The `weekly.js` code will run once a week on Monday at 8 am PST.
 
 **Lines 14–21** make a request to `lib.airtable.query['@0.4.5']` API to retrieve `user_id` from the `Members` table and stores the results for this query in result as `result.airtable.distinctQueryResult`.
 
-<img src= "./readme/.png" width="400">
+<img src= "./readme/25.png" width="400">
 
 **Lines 23–25** we're using [moment-timezone]{https://www.npmjs.com/package/moment-timezone) npm package to format the date `YYYY-MM-DD` so that when we query the Airtable `Dates` table, we can identify and match the row with the current date.
 
 **Lines 30–43** make another request to `lib.airtable.query['@0.4.5']` to query the `Dates` table. It's looking for rows where `Date` is equal to the current date in format `YYYY-MM-DD` with `wasSent` : `null`, and status : `pending` . If the criteria is met it returns the row and stores it in `result.airtable.selectQueryResult` where we will access it to build the rest of our workflow. The Airtable API returns that information in a JSON object, which can be viewed from Autocode by logging the response: `console.log(result.airtable.selectQueryResult)` (Line 45). When you test run your code, you will view the logged response data right below the Run Code button highlighted in blue.
 
+<img src= "./readme/26.png" width="400">
+
 **Lines 48–50** make a request to `lib.slack.channels['@0.6.6']` to retrieve information for #general channel and stores the response data in `result.slack.channel.` We log the response using: `console.log(result.slack.channel)` (Line 52).
 
-<img src= "./readme/.png" width="400">
+<img src= "./readme/27.png" width="400">
 
 **Lines 55–63** Uses a `for` loop to iterate through the data stored in `result.airtable.distinctQueryResult.distinct.values.` The `for` loop grabs all user_id's and sends a private message to all via `lib.slack.messages['@0.5.11'].ephemeral.create`. We identify the channel we want to post the private message in by setting the value for channelID to: `${result.slack.channel.id}.`
 
 **Lines 66 -76** update our Airtable when the Slack app has sent out the message to users by calling `lib.airtable.query['@0.4.5']`  and setting the`wasSent` field to `true`.
 
-<img src= "./readme/.png" width="400">
+<img src= "./readme/29.png" width="400">
 
   - Note when test running the code in this make sure all users in Airtable are in the channel where you'll be sending them         the private message.
+  
   - To test your Slack app make sure the Dates table has one row with the current date and the wasSent field is unchecked.
   
 ---
@@ -297,13 +297,13 @@ First, an API call is made to query Airtable for rows in `Dates` table where `wa
 
 To test run the code in this file, you'll need to edit the test parameters sent to this API. The code instructions inside this API are expecting a user id which is found in your Airtable. Select Edit Payload and add a `user_id` value found in your Airtable.
 
-<img src= "./readme/.png" width="400">
+<img src= "./readme/30.png" width="400">
 
-<img src= "./readme/.png" width="400">
+<img src= "./readme/31.png" width="400">
 
 Select Save Payload and run your code.
 
-<img src= "./readme/.png" width="400">
+<img src= "./readme/32.png" width="400">
 
 Your tables will populate with the Reply from the test event.
 
@@ -314,11 +314,11 @@ You will notice that the code is programmed to run at 8:00 am America - Los 
 
 To change the time your Slack app sends messages, right-click on the `weekly.js` file and select `Clone API Endpoint`.
 
-  <img src= "./images/.png" width="400">
+  <img src= "./images/33.png" width="400">
 
 Use the API Wizard to select **Scheduler** as your **event source** and then select the frequency you'd like to have your Slack app post inside a channel. Select the **time** and **timezone** and make sure to hit the **Save Endpoint** button.
 
-  <img src= "./images/.png" width="400">
+  <img src= "./images/34.png" width="400">
   
 Delete the extra `const result = {};` statement on line 10.
 
@@ -326,15 +326,15 @@ Delete the extra `return result;` statement on line 81.
 
 Select **Save Endpoint.**
 
- <img src= "./images/.png" width="400">
+ <img src= "./images/35.png" width="400">
   
 Autocode automatically saves your new endpoint file as `daily.js` inside the `/scheduler` folder. Delete your first file if you don't want your app to run weekly.
   
-  <img src= "./images/.png" width="400">
+  <img src= "./images/36.png" width="400">
 
 Make sure to deploy your app again for the changes to take effect by selecting **Deploy API** in the bottom-left of the file manager.
 
-  <img src= "./images/.png" width="400">
+  <img src= "./images/37.png" width="400">
   
 
 # Support
