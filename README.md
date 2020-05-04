@@ -5,7 +5,7 @@
 
 In this tutorial, we will build a Slack application to track team tasks in Airtable. Our Slack app will ask registered team members what they're working on and record their responses in Airtable. We'll program our app to run once a week on Monday, but you'll learn to configure it to run daily, hourly and minutely if you'd like. You'll also have the option to customize the message that your Slack app sends.
 
-<img src= "./readme/.png" width="400">
+<img src= "./readme/one.png" width="400">
 
 The Slack app will run on [Standard Library](https://stdlib.com), a
 free-to-use API and workflow hosting platform, **powered by Node.js**, that will
@@ -31,26 +31,26 @@ focus on writing and modifying logic.
 
 After installation, you will run `/cmd getmembers` from your Slack workspace. This command will trigger a webhook hosted on Standard Library to populate an Airtable base with all the active members in the workspace. You can then select the team members you'd like to have your app message to track tasks.
 
-<img src= "./readme/.png" width="400">
+<img src= "./readme/two.png" width="400">
 
-<img src= "./readme/.png" width="400">
+<img src= "./readme/three.png" width="400">
 
 Once every week your Slack app will search through the `Dates` table to find the current date where the `wasSent` field is unchecked and the `status` field is `pending`.
 
 If these conditions are met, then your Slack app will send a private message to each of the users in the `Members` table. Once all messages are delivered it'll check off the wasSent field.
 
-<img src= "./readme/.png" width="400">
+<img src= "./readme/four.png" width="400">
 
-<img src= "./readme/.png" width="400">
+<img src= "./readme/five.png" width="400">
 
 A user can then reply with the tasks their working on by invoking the command `/cmd record <text> `for example:
 `/cmd record Content: Build a Custom Slack + Airtable Task Management Bot`
 
-<img src= "./readme/.png" width="400">
+<img src= "./readme/six.png" width="400">
 
-TheReplies table will automatically populate with the respondent's reply and it'll be linked to the user's real_name on Members table and Date.
+The Replies table will automatically populate with the respondent's reply and it'll be linked to the user's real_name on Members table and Date.
 
-<img src= "./readme/.png" width="400">
+<img src= "./readme/seven.png" width="400">
 
 # Installation
 
@@ -61,67 +61,57 @@ Click this deploy from Autocode button to quickly set up your project in Autocod
 You will be prompted to sign in or create a free account. If you have a Standard Library account click Already Registered and sign in using your Standard Library credentials.
 Give your project a unique name and select Start API Project from Github:
 
-<img src= "./readme/.png" width="400">
+<img src= "./readme/eight.png" width="400">
 
 Autocode automatically sets up a project scaffold to save your project as an API endpoint.
 To deploy your API to the cloud navigate through the `functions/events/scheduler` folders on the left and select `weekly.js` file.
 
-<img src= "./readme/.png" width="400">
+<img src= "./readme/nine.png" width="400">
 
-<img src= "./readme/.png" width="400">
+<img src= "./readme/ten.png" width="400">
 
 Select the red Account Required button, which will prompt you to link Slack and Airtable accounts.
 
-<img src= "./readme/.png" width="400">
+<img src= "./readme/eleven.png" width="400">
 
-Let's start by linking a Slack Resource.
+Let's start by linking a Slack Resource. Select Link New Resource to link a new Slack app.
 
-<img src= "./readme/.png" width="400">
-
-Select Link New Resource to link a new Slack app.
-
-<img src= "./readme/.png" width="400">
+<img src= "./readme/thirteen.png" width="400">
 
 You should see an OAuth popup. Select the workspace you'd like to install your Slack app in, and click Allow.
 
-<img src= "./readme/.png" width="400">
+<img src= "./readme/fourteen.png" width="400">
 
 Give your Slack app a name and image if you'd like.
 
-<img src= "./readme/.png" width="400">
+<img src= "./readme/fifteen.png" width="400">
 
 Select Finish. Next select Link Resource to connect to your Airtable account by following the instructions on the modal to retrieve your Airtable API Key and select finish.
 
-<img src= "./readme/W.png" width="400">
+<img src= "./readme/sixteen.png" width="400">
 
 Find and select your Base and click Finish.
 
-<img src= "./readme/.png" width="400">
+<img src= "./readme/seventeen.png" width="400">
 
 The green checkmarks confirm that you've linked your accounts properly. Select Finished linking.
 
-<img src= "./readme/.png" width="400">
+<img src= "./readme/19.png" width="400">
 
 You're ready to deploy your Slack App select Deploy in the bottom-left of the file manager.
 
-<img src= "./readme/.png" width="400">
+<img src= "./readme/20.png" width="400">
 
 Your Slack App is now available for use in the Slack workspace you authorized it for.  
-The final step is to populate the Members Airtable with active members in your workspace by running `/cmd getmembers` from any channel in Slack. You can then select the team members you'd like to have your app message.
+The final step is to populate the Members Airtable with active members in your workspace by running `/cmd getmembers` from any channel in Slack. 
 
-<img src= "./readme/.png" width="400">
+<img src= "./readme/22.png" width="400">
+
+You can then select the team members you'd like to have your app message.
+
+<img src= "./readme/23.png" width="400">
 
 Your Slack app is ready! It'll query your Airtable for user_ids to send users a private message in the #general channel every Monday at 8:00 am PST.
-
-<img src= "./readme/.png" width="400">
-
-<img src= "./readme/W.png" width="400">
-
-<img src= "./readme/.png" width="400">
-
-<img src= "./readme/.png" width="400">
-
-<img src= "./readme/.png" width="400">
 
 
 #Dive into the Code
