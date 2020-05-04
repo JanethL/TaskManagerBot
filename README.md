@@ -3,7 +3,7 @@
 
 # Build a Custom Slack + Airtable Task Management Application
 
-In this tutorial, we will build a Slack application to track team tasks in Airtable. Our Slack app will ask registered team members what they're working on and record their responses in Airtable. We'll program our app to run once a week on Monday, but you'll learn to configure it to run daily, hourly and minutely if you'd like. You'll also have the option to customize the message that your Slack app sends.
+In this guide, we will build a Slack application to track team tasks in Airtable. Our Slack app will ask registered team members what they're working on and record their responses in Airtable. We'll program our app to run once a week on Monday, but you'll learn to configure it to run daily, hourly and minutely if you'd like. You'll also have the option to customize the message that your Slack app sends.
 
 <img src= "./readme/one.png" width="400">
 
@@ -116,7 +116,7 @@ Your Slack app is ready! It'll query your Airtable for user_ids to send users a 
 
 # getmembers command
 
-When a user type's \cmd getmembers a webhook on Standard Library is triggered. To open up the file for the command navigate through the `/functions/slack/command` folders and select `/getmembers.js` file: 
+When a user type's /cmd getmembers a webhook on Standard Library is triggered. To open up the file for the command navigate through the `/functions/slack/command` folders and select `/getmembers.js` file: 
 
 ``` Javascript
 const lib = require('lib')({
