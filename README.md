@@ -18,9 +18,9 @@ focus on writing and modifying logic.
 1. [How It Works](#how-it-works)
 1. [Installation](#installation)
 1. [Dive into the Code](#dive-into-the-code) 
-1. [Making Changes](#making-changes)
-   1. [via Web Browser](#via-web-browser)
-   1. [via Command Line](#via-command-line)
+   1. [getmembers command](#getmembers-command)
+   1. [scheduled messages](#scheduled-messages)
+   1. [record command](#record-command) 
 1. [Support](#support)
 1. [Acknowledgements](#acknowledgements)
 
@@ -113,6 +113,8 @@ Your Slack app is ready! It'll query your Airtable for user_ids to send users a 
 
 # Dive into the Code
 
+# getmembers command
+
 When a user type's \cmd getmembers a webhook on Standard Library is triggered. To open up the file for the command navigate through the `/functions/slack/command` folders and select `/getmembers.js` file: 
 
 ``` Javascript
@@ -176,6 +178,8 @@ You can read more about API specifications and parameters here: https://docs.std
 
 ---
 
+ # scheduled messages
+ 
 To open up the file running the weekly messages from your Slack app, navigate through the `/functions/events/scheduler` folders and select `/weekly.js` file on your Autocode project.
 
 ``` Javascript
@@ -288,7 +292,7 @@ The `weekly.js` code will run once a week on Monday at 8 am PST.
   - To test your Slack app make sure the Dates table has one row with the current date and the wasSent field is unchecked.
   
 ---
-
+ # record command 
 To open the file for `/cmd record` navigate through `/functions/events/slack/command` folders and select `/record.js` file.
 
 This file behaves like the `getmembers.js` file. When a user submits `/cmd record` a webhook will be triggered and the code inside this file will run.
