@@ -119,17 +119,21 @@ Your Slack app is ready! It'll query your Airtable for user_ids to send users a 
 When a user type's \cmd getmembers a webhook on Standard Library is triggered. To open up the file for the command navigate through the `/functions/slack/command` folders and select `/getmembers.js` file: 
 
 ``` Javascript
-const lib = require('lib')({token: process.env.STDLIB_SECRET_TOKEN});
+const lib = require('lib')({
+  token: process.env.STDLIB_SECRET_TOKEN
+});
 
 /**
-* An HTTP endpoint that acts as a webhook for Slack command event
-* @param {object} event
-* @returns {object} result Your return value
-*/
+ * An HTTP endpoint that acts as a webhook for Slack command event
+ * @param {object} event
+ * @returns {object} result Your return value
+ */
 module.exports = async (event) => {
 
   // Store API Responses
-  const result = {slack: {}};
+  const result = {
+    slack: {}
+  };
 
   console.log(`Running [Slack → List all users]...`);
   result.slack.returnValue = await lib.slack.users['@0.3.32'].list({
@@ -139,19 +143,17 @@ module.exports = async (event) => {
 
   const activeMembers = result.slack.returnValue.members.filter(members => members.is_bot == false);
 
-    console.log(`Running [Airtable → Insert Rows into a Base]...`);
-    for (var i = 0; i < activeMembers.length; i++) {
+  console.log(`Running [Airtable → Insert Rows into a Base]...`);
+  for (var i = 0; i < activeMembers.length; i++) {
     await lib.airtable.query['@0.4.5'].insert({
       table: `Members`,
-      fieldsets: [
-        {
-          'real_name': `${activeMembers[i].profile.real_name}`,
-          'user_id': `${activeMembers[i].id}`
-        }
-      ]
+      fieldsets: [{
+        'real_name': `${activeMembers[i].profile.real_name}`,
+        'user_id': `${activeMembers[i].id}`
+      }]
     });
-    }
-    
+  }
+
   return result;
 
 };
@@ -186,78 +188,79 @@ You can read more about API specifications and parameters here: https://docs.std
 To open up the file running the weekly messages from your Slack app, navigate through the `/functions/events/scheduler` folders and select `/weekly.js` file on your Autocode project.
 
 ``` Javascript
-    const lib = require('lib')({token: process.env.STDLIB_SECRET_TOKEN});
-  
-  /**
-  * An HTTP endpoint that acts as a webhook for Scheduler daily event
-  * @returns {object} result Your return value
-  */
-  
-  module.exports = async () => {
-    
+const lib = require('lib')({
+  token: process.env.STDLIB_SECRET_TOKEN
+});
+
+/**
+ * An HTTP endpoint that acts as a webhook for Scheduler daily event
+ * @returns {object} result Your return value
+ */
+
+module.exports = async () => {
+
   // Store API Responses
-  const result = {airtable: {}, slack: {}};
-  
+  const result = {
+    airtable: {},
+    slack: {}
+  };
+
   console.log(`Running [Airtable → Retrieve Distinct Values by querying a Base]...`);
-    result.airtable.distinctQueryResult = await lib.airtable.query['@0.4.5'].distinct({
-      table: `Members`,
-      field: `user_id`,
-      limit: {
-        'count': 0,
-        'offset': 0
-      },
-    });
-    
+  result.airtable.distinctQueryResult = await lib.airtable.query['@0.4.5'].distinct({
+    table: `Members`,
+    field: `user_id`,
+    limit: {
+      'count': 0,
+      'offset': 0
+    },
+  });
+
   const momentTimezone = require('moment-timezone'); // https://momentjs.com/timezone/docs/
   let date = momentTimezone().tz('America/Los_Angeles'); //sets the timezone of the date object to 'America/Los_Angeles'
   let formatted_date = date.format('YYYY-MM-DD');
-  
+
   console.log(formatted_date);
-  
+
   console.log(`Running [Airtable → Select Rows by querying a Base]...`);
-    result.airtable.selectQueryResult = await lib.airtable.query['@0.4.5'].select({
+  result.airtable.selectQueryResult = await lib.airtable.query['@0.4.5'].select({
     table: `Dates`,
-    where: [
-    {
-    'Date__is': formatted_date,
-    'wasSent__is_null': true,
-    'Status__is': `pending`
-    }
-    ],
+    where: [{
+      'Date__is': formatted_date,
+      'wasSent__is_null': true,
+      'Status__is': `pending`
+    }],
     limit: {
-    'count': 0,
-    'offset': 0
+      'count': 0,
+      'offset': 0
     }
-    });
-    
+  });
+
   console.log(result.airtable.selectQueryResult);
-  
+
   console.log(`Running [Slack → retrieve channel by name ]}`);
   result.slack.channel = await lib.slack.channels['@0.6.6'].retrieve({
-    channel: `#random`
+    channel: `#general`
   });
-  
+
   console.log(result.slack.channel);
-  
+
   console.log(`Running [Slack → Create a new Ephemeral Message from your Bot]...`);
-  for (var i = 0; i < result.airtable.distinctQueryResult.distinct.values.length; i++){
-    
-  await lib.slack.messages['@0.5.11'].ephemeral.create({
-    channelId: `${result.slack.channel.id}`,
-    userId: `${result.airtable.distinctQueryResult.distinct.values[i]}`,
-    text: `What tasks are you working on for week of ${result.airtable.selectQueryResult.rows[0].fields.Date}? \n Please reply using \/cmd record:`,
-    as_user: false
-  });
-    }
-    
+  for (var i = 0; i < result.airtable.distinctQueryResult.distinct.values.length; i++) {
+
+    await lib.slack.messages['@0.5.11'].ephemeral.create({
+      channelId: `${result.slack.channel.id}`,
+      userId: `${result.airtable.distinctQueryResult.distinct.values[i]}`,
+      text: `What tasks are you working on for week of ${result.airtable.selectQueryResult.rows[0].fields.Date}? \n Please reply using \/cmd record:`,
+      as_user: false
+    });
+  }
+
   console.log(`Running airtable.query[@0.3.3].update()...`);
   result.updateQueryResult = await lib.airtable.query['@0.4.5'].update({
     table: `Dates`, // required
-    where: [
-      {
-        Date: `${result.airtable.selectQueryResult.rows[0].fields.Date}`
-      }
-    ],
+    where: [{
+      Date: `${result.airtable.selectQueryResult.rows[0].fields.Date}`
+    }],
     fields: {
       wasSent: true
     }
