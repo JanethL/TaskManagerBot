@@ -314,11 +314,11 @@ You will notice that the code is programmed to run at 8:00 am America - Los 
 
 To change the time your Slack app sends messages, right-click on the `weekly.js` file and select `Clone API Endpoint`.
 
-  <img src= "./images/33.png" width="400">
+  <img src= "./readme/33.png" width="400">
 
 Use the API Wizard to select **Scheduler** as your **event source** and then select the frequency you'd like to have your Slack app post inside a channel. Select the **time** and **timezone** and make sure to hit the **Save Endpoint** button.
 
-  <img src= "./images/34.png" width="400">
+  <img src= "./readme/34.png" width="400">
   
 Delete the extra `const result = {};` statement on line 10.
 
@@ -326,15 +326,15 @@ Delete the extra `return result;` statement on line 81.
 
 Select **Save Endpoint.**
 
- <img src= "./images/35.png" width="400">
+ <img src= "./readme/35.png" width="400">
   
 Autocode automatically saves your new endpoint file as `daily.js` inside the `/scheduler` folder. Delete your first file if you don't want your app to run weekly.
   
-  <img src= "./images/36.png" width="400">
+  <img src= "./readme/36.png" width="400">
 
 Make sure to deploy your app again for the changes to take effect by selecting **Deploy API** in the bottom-left of the file manager.
 
-  <img src= "./images/37.png" width="400">
+  <img src= "./readme/37.png" width="400">
   
 
 # Support
