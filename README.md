@@ -287,7 +287,7 @@ The `weekly.js` code will run once a week on Monday at 8 am PST.
 
 <img src= "./readme/25.png" width="400">
 
-**Lines 23–25** we're using [moment-timezone]{https://www.npmjs.com/package/moment-timezone) npm package to format the date `YYYY-MM-DD` so that when we query the Airtable `Dates` table, we can identify and match the row with the current date.
+**Lines 23–25** we're using [moment-timezone](https://www.npmjs.com/package/moment-timezone) npm package to format the date `YYYY-MM-DD` so that when we query the Airtable `Dates` table, we can identify and match the row with the current date.
 
 **Lines 30–43** make another request to `lib.airtable.query['@0.4.5']` to query the `Dates` table. It's looking for rows where `Date` is equal to the current date in format `YYYY-MM-DD` with `wasSent` : `null`, and status : `pending` . If the criteria is met it returns the row and stores it in `result.airtable.selectQueryResult` where we will access it to build the rest of our workflow. The Airtable API returns that information in a JSON object, which can be viewed from Autocode by logging the response: `console.log(result.airtable.selectQueryResult)` (Line 45). When you test run your code, you will view the logged response data right below the Run Code button highlighted in blue.
 
