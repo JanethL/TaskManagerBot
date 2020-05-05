@@ -283,23 +283,23 @@ module.exports = async () => {
 ```
 The `weekly.js` code will run once a week on Monday at 8 am PST.
 
-**Lines 14–21** make a request to `lib.airtable.query['@0.4.5']` API to retrieve `user_id` from the `Members` table and stores the results for this query in result as `result.airtable.distinctQueryResult`.
+**Lines 19–26** make a request to `lib.airtable.query['@0.4.5']` API to retrieve `user_id` from the `Members` table and stores the results for this query in result as `result.airtable.distinctQueryResult`.
 
 <img src= "./readme/25.png" width="400">
 
-**Lines 23–25** we're using [moment-timezone](https://www.npmjs.com/package/moment-timezone) npm package to format the date `YYYY-MM-DD` so that when we query the Airtable `Dates` table, we can identify and match the row with the current date.
+**Lines 28–30** we're using [moment-timezone](https://www.npmjs.com/package/moment-timezone) npm package to format the date `YYYY-MM-DD` so that when we query the Airtable `Dates` table, we can identify and match the row with the current date.
 
-**Lines 30–43** make another request to `lib.airtable.query['@0.4.5']` to query the `Dates` table. It's looking for rows where `Date` is equal to the current date in format `YYYY-MM-DD` with `wasSent` : `null`, and status : `pending` . If the criteria is met it returns the row and stores it in `result.airtable.selectQueryResult` where we will access it to build the rest of our workflow. The Airtable API returns that information in a JSON object, which can be viewed from Autocode by logging the response: `console.log(result.airtable.selectQueryResult)` (Line 45). When you test run your code, you will view the logged response data right below the Run Code button highlighted in blue.
+**Lines 35–46** make another request to `lib.airtable.query['@0.4.5']` to query the `Dates` table. It's looking for rows where `Date` is equal to the current date in format `YYYY-MM-DD` with `wasSent` : `null`, and status : `pending` . If the criteria is met it returns the row and stores it in `result.airtable.selectQueryResult` where we will access it to build the rest of our workflow. The Airtable API returns that information in a JSON object, which can be viewed from Autocode by logging the response: `console.log(result.airtable.selectQueryResult)` (Line 45). When you test run your code, you will view the logged response data right below the Run Code button highlighted in blue.
 
 <img src= "./readme/26.png" width="400">
 
-**Lines 48–50** make a request to `lib.slack.channels['@0.6.6']` to retrieve information for #general channel and stores the response data in `result.slack.channel.` We log the response using: `console.log(result.slack.channel)` (Line 52).
+**Lines 51–53** make a request to `lib.slack.channels['@0.6.6']` to retrieve information for #general channel and stores the response data in `result.slack.channel.` We log the response using: `console.log(result.slack.channel)` (Line 52).
 
 <img src= "./readme/27.png" width="400">
 
-**Lines 55–63** Uses a `for` loop to iterate through the data stored in `result.airtable.distinctQueryResult.distinct.values.` The `for` loop grabs all user_id's and sends a private message to all via `lib.slack.messages['@0.5.11'].ephemeral.create`. We identify the channel we want to post the private message in by setting the value for channelID to: `${result.slack.channel.id}.`
+**Lines 58–66** Uses a `for` loop to iterate through the data stored in `result.airtable.distinctQueryResult.distinct.values.` The `for` loop grabs all user_id's and sends a private message to all via `lib.slack.messages['@0.5.11'].ephemeral.create`. We identify the channel we want to post the private message in by setting the value for channelID to: `${result.slack.channel.id}.`
 
-**Lines 66 -76** update our Airtable when the Slack app has sent out the message to users by calling `lib.airtable.query['@0.4.5']`  and setting the`wasSent` field to `true`.
+**Lines 69 -77** update our Airtable when the Slack app has sent out the message to users by calling `lib.airtable.query['@0.4.5']`  and setting the`wasSent` field to `true`.
 
 <img src= "./readme/29.png" width="400">
 
