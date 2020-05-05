@@ -170,25 +170,25 @@ module.exports = async (event) => {
 };
   
 ```
-The first line of code imports an [NPM](https://www.npmjs.com/package/lib) package called “lib” to allow us to communicate with other APIs on top of Standard Library:
+The first lines of code import an [NPM](https://www.npmjs.com/package/lib) package called “lib” to allow us to communicate with other APIs on top of Standard Library:
 
 `const lib = require(‘lib’)({token: process.env.STDLIB_SECRET_TOKEN});` 
 
 You can read more about API specifications and parameters here: https://docs.stdlib.com/connector-apis/building-an-api/api-specification/
 
-**Lines 3–7** is a comment that serves as documentation and allows Standard Library to type check calls to our functions. If a call does not supply a parameter with a correct (or expected type) it would return an error. This specific API endpoint is expecting information about the event in an `{object}` and will return response data in an `{object}`.
+**Lines 5–9** is a comment that serves as documentation and allows Standard Library to type check calls to our functions. If a call does not supply a parameter with a correct (or expected type) it would return an error. This specific API endpoint is expecting information about the event in an `{object}` and will return response data in an `{object}`.
 
-**Line 8** is a function `(module.exports)` that will export our entire code found in lines 8–34. Once we deploy our code, this function will be wrapped into an HTTP endpoint (API endpoint) and it'll automatically register with Slack. Every time the slash command `\cmd getmembers` is invoked, Slack will send that event's payload of information for our API endpoint to consume.
+**Line 10** is a function `(module.exports)` that will export our entire code found in lines 10–38. Once we deploy our code, this function will be wrapped into an HTTP endpoint (API endpoint) and it'll automatically register with Slack. Every time the slash command `\cmd getmembers` is invoked, Slack will send that event's payload of information for our API endpoint to consume.
 
-**Line 11** `const result = {slack: {}}` declares a `result` variable to store response data in an object from the following request to  Slack API.
+**Line 13** `const result = {slack: {}}` declares a `result` variable to store response data in an object from the following request to  Slack API.
 
-**Lines 14–17** make a request to `lib.slack.users['@0.3.32']` to retrieve a list of users information and stores  the response data inside our `result` variable as `result.slack.returnValue.` You can view the `result` object by selecting `Run Code.` When you select Run Code Autocode will simulate a slash command event on Slack and the response will be visible in the logs right below the `Run Code` button. API Responses are highlighted in green.
+**Lines 18–21** make a request to `lib.slack.users['@0.3.32']` to retrieve a list of users information and stores the response data inside our `result` variable as `result.slack.returnValue.` You can view the `result` object by selecting `Run Code.` When you select Run Code Autocode will simulate a slash command event on Slack and the response will be visible in the logs right below the `Run Code` button. API Responses are highlighted in green.
 
 <img src= "./readme/24.png" width="400">
 
-**Line 19** we define the variable `activeMembers` and filter through the list to retrieve only active members from `result.slack.returnValue.members.` We will select users' `real_name,` and `user_id` from this response and pass this data into our subsequent Airtable API request.
+**Line 23** we define the variable `activeMembers` and filter through the list to retrieve only active members from `result.slack.returnValue.members.` We will select users' `real_name,` and `user_id` from this response and pass this data into our subsequent Airtable API request.
 
-**Lines 24** uses a `for` loop to iterate through `activeMembers`. The `for` loop grabs all users'  `real_name`, and `user_id` and maps those to the Airtable fields: `real_name`, `user_id` via a request to `lib.airtable.query['@0.4.5'].`
+**Lines 26 - 34** use a `for` loop to iterate through `activeMembers`. The `for` loop grabs all users'  `real_name`, and `user_id` and maps those to the Airtable fields: `real_name`, `user_id` via a request to `lib.airtable.query['@0.4.5'].`
 
 <img src= "./readme/23.png" width="400">
 
